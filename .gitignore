@@ -1,0 +1,7 @@
+venv/
+.chromadb/
+txt/
+.idea/
+.env
+*.pdf
+*.json
