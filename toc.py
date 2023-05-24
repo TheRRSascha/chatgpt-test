@@ -5,12 +5,12 @@ import fitz  # pip install pymupdf
 
 def get_bookmarks(filepath: str) -> Dict[int, str]:
     # WARNING! One page can have multiple bookmarks!
-    bookmarks = {}
+    bookmarks_list = {}
     with fitz.open(filepath) as doc:
         toc = doc.get_toc()  # [[lvl, title, page, …], …]
         for level, title, page in toc:
-            bookmarks[page] = title
-    return bookmarks
+            bookmarks_list[page] = title
+    return bookmarks_list
 
 
 pdf_folder = "C:\\PDFs Testfiles"

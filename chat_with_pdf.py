@@ -8,6 +8,7 @@ from chromadb.utils import embedding_functions
 from dotenv import load_dotenv
 import openai
 
+
 load_dotenv()
 # set your api key
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -59,18 +60,21 @@ while True:
         n_results=2
     )
 
-    chat = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system",
-             "content": "Use the information provided to the assistant. Add from other sources if needed."},
-            {"role": "assistant", "content": results["documents"][0][0]},
-            {"role": "user", "content": question}
-
-        ]
-    )
-
-    print(chat['choices'][0]['message']['content'])
+    print(results["documents"][0][0])
     print("*" * 90)
+    try:
+        chat = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": 'From this Text:\n"""\n' + results["documents"][0][0] + '\n"""'},
+                {"role": "user", "content": question}
+
+            ]
+        )
+        print(chat['choices'][0]['message']['content'])
+        print("*" * 90)
+    except openai.error.APIError as e:
+        print(e.error.get('message'))
+
     response.close()
 print("Exiting....")
