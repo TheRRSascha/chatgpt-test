@@ -1,5 +1,6 @@
 venv/
 .chromadb/
+droppedchunks/*
 txt/
 .idea/
 .env
