@@ -54,7 +54,7 @@ def extract_pdf_text(file_location):
 
 
 # Define a function to chunk the text
-def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, file_name="unknown"):
+def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, name_file="unknown"):
     """
     Reducing the text into smaller chunks.
 
@@ -62,7 +62,7 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, file_name="unkno
         text (str): The text to be chunked.
         max_chunk_size (int): The maximum size of each chunk in tokens.
         max_chunk_limit (int): The maximum size limit for a valid chunk in tokens.
-        file_name (str): The name of the file being chunked.
+        name_file (str): The name of the file being chunked.
 
     Returns:
         list: The list of created chunks.
@@ -82,7 +82,7 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, file_name="unkno
             if current_chunk_size > 0:
                 if current_chunk_size > max_chunk_limit:
                     with open(log_file, 'a', encoding='utf-8') as f:
-                        f.write(f"{file_name} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
+                        f.write(f"{name_file} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
                     print(f"Chunk {chunk_num} ({current_chunk_size} tokens) dropped due to size limit.")
                 else:
                     created_chunks.append(current_chunk.strip())
@@ -97,7 +97,7 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, file_name="unkno
     if current_chunk:
         if current_chunk_size > max_chunk_limit:
             with open(log_file, 'a', encoding='utf-8') as f:
-                f.write(f"{file_name} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
+                f.write(f"{name_file} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
             print(f"Chunk {chunk_num} ({current_chunk_size} tokens) dropped due to size limit.")
         else:
             created_chunks.append(current_chunk.strip())
@@ -109,12 +109,12 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, file_name="unkno
 # Create a DataFrame to store the chunked data
 df = pd.DataFrame(columns=['fileName', 'content', 'tokens'])
 
-pdf_folder = "C:\\PDFs Testfiles"
+pdf_folder = "C:\\PDFs Testfiles"  # Define the path to the folder containing the PDF files
 for file_name in os.listdir(pdf_folder):
     if file_name.endswith(".pdf"):
         file_path = os.path.join(pdf_folder, file_name)
         content = extract_pdf_text(file_path)
-        chunks, num_chunks, valid_chunks = chunk_text(content, max_chunk_size=1100, file_name=file_name)
+        chunks, num_chunks, valid_chunks = chunk_text(content, max_chunk_size=1100, name_file=file_name)
         tokens = sum(len(encoding.encode(chunk)) for chunk in chunks)
         df.loc[len(df)] = [file_name, chunks, tokens]
         print(f"File: {file_name}")
