@@ -6,3 +6,4 @@ txt/
 .env
 *.pdf
 *.json
+check_db.py
