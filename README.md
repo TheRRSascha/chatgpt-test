@@ -10,8 +10,13 @@ This project requires certain Python packages to function correctly. These depen
 
 To install these dependencies, ensure you are in the project's root directory and run the following command:
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
+Furthermore, you need to create an `.env` file in the root which contains your OPENAI API key like this:
+
+OPENAI_API_KEY= ?
+
+Replace the ? with your API key from the OPENAI API website.
 ## Project Version Differences
 Please note, the local version of this project includes a pre-populated ChromaDB. This database is not provided in the GitHub version of the project.
 
