@@ -137,7 +137,7 @@ def process_pdf_files(files, l_encoding, g_collection):
         )
 
 
-pdf_folder = "C:\\PDFs Testfiles"
+pdf_folder = "pdf_files"
 pdf_files = [f for f in os.listdir(pdf_folder) if f.endswith('.pdf')]
 
 encoding, collection = setup()

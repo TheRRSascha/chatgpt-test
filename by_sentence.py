@@ -109,7 +109,7 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, name_file="unkno
 # Create a DataFrame to store the chunked data
 df = pd.DataFrame(columns=['fileName', 'content', 'tokens'])
 
-pdf_folder = "C:\\PDFs Testfiles"  # Define the path to the folder containing the PDF files
+pdf_folder = "pdf_files"  # Define the path to the folder containing the PDF files
 for file_name in os.listdir(pdf_folder):
     if file_name.endswith(".pdf"):
         file_path = os.path.join(pdf_folder, file_name)
@@ -132,7 +132,7 @@ for index, row in df.iterrows():
     file_name = row['fileName']
     chunks = row['content']
     tokens = row['tokens']
-
+"""
     collection.add(
         documents=chunks,
         metadatas=[{"source": file_name, "tokens": tokens}] * len(chunks),
@@ -163,4 +163,4 @@ while True:
             print("*" * 50)
             print("\n")
 
-print("Exiting...")
+print("Exiting...")"""
