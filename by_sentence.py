@@ -110,19 +110,38 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, name_file="unkno
 df = pd.DataFrame(columns=['fileName', 'content', 'tokens'])
 
 pdf_folder = "pdf_files"  # Define the path to the folder containing the PDF files
+processed_files = "by_sentence.txt"  # The file to store names of processed PDF files
+
+# Load the list of processed files
+if os.path.exists(os.path.join(pdf_folder, processed_files)):
+    with open(os.path.join(pdf_folder, processed_files), "r") as f:
+        processed_list = f.read().splitlines()
+else:
+    processed_list = []
+
 for file_name in os.listdir(pdf_folder):
     if file_name.endswith(".pdf"):
-        file_path = os.path.join(pdf_folder, file_name)
-        content = extract_pdf_text(file_path)
-        chunks, num_chunks, valid_chunks = chunk_text(content, max_chunk_size=1100, name_file=file_name)
-        tokens = sum(len(encoding.encode(chunk)) for chunk in chunks)
-        df.loc[len(df)] = [file_name, chunks, tokens]
-        print(f"File: {file_name}")
-        print(f"Number of chunks: {num_chunks}")
-        print(f"Number of valid chunks: {valid_chunks}")
-        print(f"Total tokens: {tokens}\n")
-        total_chunks = df['content'].apply(len).sum()
-        print(f"Total chunks of all PDFs: {total_chunks}")
+        if file_name in processed_list:
+            print(f"Skipping {file_name} as it has already been processed.")
+            continue
+        else:
+            print(f"Reading in {file_name} for processing.")
+            file_path = os.path.join(pdf_folder, file_name)
+            content = extract_pdf_text(file_path)
+            chunks, num_chunks, valid_chunks = chunk_text(content, max_chunk_size=1100, name_file=file_name)
+            tokens = sum(len(encoding.encode(chunk)) for chunk in chunks)
+            df.loc[len(df)] = [file_name, chunks, tokens]
+            print(f"File: {file_name}")
+            print(f"Number of chunks: {num_chunks}")
+            print(f"Number of valid chunks: {valid_chunks}")
+            print(f"Total tokens: {tokens}\n")
+            total_chunks = df['content'].apply(len).sum()
+            print(f"Total chunks of all PDFs: {total_chunks}")
+
+            # Save the processed file name into the processed_list and update the by_sentence.txt
+            processed_list.append(file_name)
+            with open(os.path.join(pdf_folder, processed_files), "a") as f:
+                f.write(file_name + "\n")
 
 
 print(df)

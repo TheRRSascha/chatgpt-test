@@ -123,6 +123,13 @@ def process_pdf_files(files, l_encoding, g_collection):
     and adds the chunks to the ChromaDB collection.
     """
     for pdf_file in files:
+        # Check if file has already been processed
+        if pdf_file in processed_list:
+            print(f"Skipping {pdf_file} as it has already been processed.")
+            continue
+
+        print(f"Reading in {pdf_file} for processing.")
+
         pdf_path = os.path.join(pdf_folder, pdf_file)
         bookmarks = get_bookmarks(pdf_path)
         text_pages = extract_pdf_text_and_pages(pdf_path)
@@ -130,15 +137,34 @@ def process_pdf_files(files, l_encoding, g_collection):
         print_summary(pdf_file, text_pages, num_chunks, valid_chunks, bookmarks)
 
         metadatas = [{"source": pdf_file, "tokens": chunk_size} for chunk, chunk_size, _ in chunks]
+
+
         g_collection.add(
             documents=[chunk for chunk, _, _ in chunks],
             metadatas=metadatas,
             ids=[f"{os.path.splitext(pdf_file)[0]}_chunk_{i + 1}.pdf" for i in range(len(chunks))]
         )
 
+        # After processing, add file to the processed list and update the text file
+        processed_list.append(pdf_file)
+        with open(processed_files, "a") as out:
+            out.write(f'{pdf_file}\n')
+
 
 pdf_folder = "pdf_files"
-pdf_files = [f for f in os.listdir(pdf_folder) if f.endswith('.pdf')]
+processed_files = "pdf_files/bookmark_or_page_by_page.txt"  # Update this path to your actual file
 
+# Load the list of processed files
+if os.path.exists(processed_files):
+    with open(processed_files, "r") as f:
+        processed_list = f.read().splitlines()
+else:
+    processed_list = []
+# Get a list of all PDF files
+all_files = [f for f in os.listdir(pdf_folder) if f.endswith('.pdf')]
+
+# Initialize the encoding and collection once for all files
 encoding, collection = setup()
-process_pdf_files(pdf_files, encoding, collection)
+
+# Call process_pdf_files on all pdf files
+process_pdf_files(all_files, encoding, collection)

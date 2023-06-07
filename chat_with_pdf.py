@@ -137,9 +137,12 @@ def perform_chat_completion(user_question, document):
 
 
 while True:
-    user_input = input("Enter your question (or type 'exit' to quit): ")
+    """
+    Logic to enable Chatting
+    """
+    user_input = input("Enter your question (or press 'Enter' to quit): ")
     print("*" * 90)
-    if user_input.lower() == "exit":
+    if user_input.lower() == "":
         break
 
     question_embedding = get_query_embedding(user_input)
