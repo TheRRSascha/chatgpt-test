@@ -1,4 +1,7 @@
-# Import the required libraries and modules
+"""
+This script is used to process PDF files by extracting the text content, dividing it into chunks, and storing the chunks in a ChromaDB collection.
+Users can then query the collection to retrieve chunks of text relevant to a specific search term.
+"""
 import datetime
 import logging
 import os

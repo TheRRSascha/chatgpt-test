@@ -1,3 +1,9 @@
+"""
+This script processes and chunks PDF files for inclusion in the ChromaDB database, a storage and retrieval
+system for embedding-based models. It extracts bookmarks and text from each page of the PDF files, then
+splits the text into chunks based on either the page bookmarks or a maximum token limit. The chunks are
+then added to the ChromaDB collection for future use.
+"""
 import chromadb
 from typing import Dict, Tuple, List
 import os

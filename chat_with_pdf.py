@@ -1,3 +1,9 @@
+"""
+Using the created ChromaDB, we can facilitate conversations with ChatGPT. The process involves creating an
+embedding from the user-provided question. This embedding is then used to retrieve similar text chunks from the
+database, which serve as the context for generating a response to the user's question
+"""
+
 import os
 import chromadb
 import tiktoken
