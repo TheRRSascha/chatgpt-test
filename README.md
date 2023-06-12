@@ -22,6 +22,8 @@ Please note, the local version of this project includes a pre-populated ChromaDB
 
 ## Database Creation
 
+You need to place your PDF files into the `pdf_files` folder.
+
 To generate the databases, execute `by_sentence.py` and `bookmark_or_page_by_page.py` scripts. Each of these scripts contains inline documentation, explaining their individual operation and purpose.
 
 ## Chat Application
