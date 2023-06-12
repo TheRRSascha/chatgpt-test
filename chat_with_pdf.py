@@ -45,7 +45,7 @@ with their details recorded in a log file.
 
 chunk_bookmark: This collection comprises chunks created from bookmark to bookmark with an enforced token length. If 
 a PDF lacked bookmarks in its metadata, chunks were created from page to page. Sometimes combined bookmarks, 
-if the token-length could fit two bookmarks
+if the token-length could fit two bookmarks. Best results experience in my opinion.
 """
 
 # Get the collection for querying text chunks
