@@ -83,8 +83,8 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, name_file="unkno
         sentence_size = len(encoding.encode(sentence))
         if current_chunk_size + sentence_size > max_chunk_size:
             if current_chunk_size > max_chunk_limit:
-                with open(log_file, 'a', encoding='utf-8') as f:
-                    f.write(f"{name_file} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
+                with open(log_file, 'a', encoding='utf-8') as file:
+                    file.write(f"{name_file} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
                 logging.info(f"Chunk {chunk_num} ({current_chunk_size} tokens) dropped due to size limit.")
             else:
                 created_chunks.append(current_chunk.strip())
@@ -98,8 +98,8 @@ def chunk_text(text, max_chunk_size=1100, max_chunk_limit=1200, name_file="unkno
 
     if current_chunk:
         if current_chunk_size > max_chunk_limit:
-            with open(log_file, 'a', encoding='utf-8') as f:
-                f.write(f"{name_file} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
+            with open(log_file, 'a', encoding='utf-8') as file:
+                file.write(f"{name_file} | Chunk {chunk_num} | {current_chunk_size} tokens\n{current_chunk.strip()}\n")
             logging.info(f"Chunk {chunk_num} ({current_chunk_size} tokens) dropped due to size limit.")
         else:
             created_chunks.append(current_chunk.strip())

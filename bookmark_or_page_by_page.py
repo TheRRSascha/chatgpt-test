@@ -138,7 +138,6 @@ def process_pdf_files(files, l_encoding, g_collection):
 
         metadatas = [{"source": pdf_file, "tokens": chunk_size} for chunk, chunk_size, _ in chunks]
 
-
         g_collection.add(
             documents=[chunk for chunk, _, _ in chunks],
             metadatas=metadatas,
