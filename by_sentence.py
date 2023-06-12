@@ -153,7 +153,7 @@ for index, row in df.iterrows():
     file_name = row['fileName']
     chunks = row['content']
     tokens = row['tokens']
-
+"""
     collection.add(
         documents=chunks,
         metadatas=[{"source": file_name, "tokens": tokens}] * len(chunks),
@@ -184,4 +184,4 @@ while True:
             print("*" * 50)
             print("\n")
 
-print("Exiting...")
+print("Exiting...")"""
