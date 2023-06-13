@@ -136,7 +136,7 @@ def perform_chat_completion(user_question, document):
                 {"role": "user", "content": user_question}
             ]
         )
-        return chat['choices'][0]['message']['content']
+        return chat
     except openai.error.APIError as e:
         return e.error.get('message')
     except openai.error.RateLimitError as e:
@@ -160,14 +160,16 @@ while True:
 
     if query_results:
         document_text = query_results["documents"][0][0] + query_results["documents"][0][1]
-        number = len(encoding.encode(document_text))
+
+        chat_completion = perform_chat_completion(user_input, document_text)
+        # noinspection PyTypeChecker
+        number = chat_completion['usage']['total_tokens']
+        # noinspection PyTypeChecker
+        price = round((number * 0.002) / 1000, 4)
         print(document_text)
         print("*" * 90)
-        print(f"Tokens used: {number}")
-        chat_completion = perform_chat_completion(user_input, document_text)
-
+        # noinspection PyTypeChecker
+        print(chat_completion['choices'][0]['message']['content'])
         print("*" * 90)
-        print(chat_completion)
-        print("*" * 90)
-
+        print(f"Tokens used: {number}, which costs around {price} Dollar")
 print("Exiting....")
