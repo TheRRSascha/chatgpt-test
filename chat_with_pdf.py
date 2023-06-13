@@ -149,7 +149,7 @@ while True:
     """
     user_input = input("Enter your question (or press 'Enter' to quit): ")
     print("*" * 90)
-    if user_input.lower() == "":
+    if user_input.lower().replace(" ", "") == "":
         break
 
     question_embedding = get_query_embedding(user_input)
