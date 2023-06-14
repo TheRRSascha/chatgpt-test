@@ -56,7 +56,7 @@ bookmarks were combined if the token-length could accommodate two bookmarks. Thi
 experience, in my opinion."""
 
 # Get the collection for querying text chunks
-collection = client.get_collection(name="chunk_sentence-experimental", embedding_function=openai_ef)
+collection = client.get_collection(name="chunk_bookmark", embedding_function=openai_ef)
 
 # Create an OpenAI client
 openai_client = openai
@@ -130,10 +130,10 @@ def perform_chat_completion(user_question, document):
     try:
         chat = openai_client.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            temperature=0.5,
+            temperature=0.55,
             messages=[
-                {"role": "user", "content": 'Explain using this Text:\n"""\n' + document + '\n"""'},
-                {"role": "user", "content": user_question}
+                {"role": "user", "content": user_question},
+                {"role": "user", "content": 'Answer question with the text below. \n"""\n' + document + '\n"""'}
             ]
         )
         return chat
@@ -172,4 +172,5 @@ while True:
         print(chat_completion['choices'][0]['message']['content'])
         print("*" * 90)
         print(f"Tokens used: {number}, which costs around {price} Dollar")
+        print("*" * 90)
 print("Exiting....")
